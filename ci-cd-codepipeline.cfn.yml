@@ -3,9 +3,7 @@ AWSTemplateFormatVersion: 2010-09-09
 
 Description: EKSWSV1
 
-
 Parameters:
-
   EksClusterName:
     Type: String
     Description: The name of the EKS cluster created
@@ -48,7 +46,7 @@ Parameters:
 
   CodeBuildDockerImage:
     Type: String
-    Default: aws/codebuild/standard:4.0
+    Default: aws/codebuild/docker:17.09.0
     Description: AWS CodeBuild Docker optimized image
     MinLength: 3
     MaxLength: 100
@@ -56,12 +54,11 @@ Parameters:
 
   KubectlRoleName:
     Type: String
-    Default: UdacityFlaskDeployCBKubectlRole 
+    Default: UdacityFlaskDeployCBKubectlRole
     Description: IAM role used by kubectl to interact with EKS cluster
     MinLength: 3
     MaxLength: 100
     ConstraintDescription: You must enter a kubectl IAM role
-
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -101,9 +98,7 @@ Metadata:
       EksClusterName:
         default: EKS cluster name
 
-
 Resources:
-
   EcrDockerRepository:
     Type: AWS::ECR::Repository
     DeletionPolicy: Retain
@@ -256,25 +251,25 @@ Resources:
                 Effect: Allow
                 Action:
                   - sts:AssumeRole
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - eks:Describe*
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - ssm:GetParameters
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - ecr:GetAuthorizationToken
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - ec2:CreateNetworkInterface
