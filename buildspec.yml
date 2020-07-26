@@ -31,6 +31,8 @@ phases:
 
   post_build:
     commands:
+      - pip3 install -r requirements.txt 
+      - python -m pytest test_main.py
       - docker push $REPOSITORY_URI:$TAG
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $EKS_KUBECTL_ROLE_ARN
       - kubectl apply -f simple_jwt_api.yml
